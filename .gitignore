@@ -1,0 +1,52 @@
+# gitignore
+
+# WordPress
+wp-content/uploads/*
+wp-content/uploads.*
+wp-content/blogs.dir/
+wp-content/upgrade/*
+wp-content/backup-db/
+wp-content/backups/
+wp-content/cache/
+wp-content/wp-cache-config.php
+wp-content/advanced-cache.php
+wp-content/uploads/sucuri/*
+sitemap.xml
+sitemap.xml.gz
+wp-config.php
+*.log
+license.txt
+readme.html
+
+# Sass / Prepros
+prepros.cfg
+.sass-cache/
+
+# Mac OS
+.DS_Store
+.DS_Store?
+.AppleDouble
+.LSOverride
+*~
+._*
+.Spotlight-V100
+.Trashes
+__MACOSX
+Thumbs.db
+ehthumbs.db
+
+# Linux OS
+.swp.*
+*.swp.*
+*.swp
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+sftp-config.json
+sftp-config-*.json
+
+# Netbeans
+nbproject
+
+# EOF
