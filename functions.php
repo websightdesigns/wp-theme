@@ -346,7 +346,8 @@ function wpadmin_filter( $url, $path, $orig_scheme ) {
 	$old  = array( "/(wp-admin)/");
 	$admin_dir = WP_ADMIN_DIR;
 	$new  = array($admin_dir);
-	return preg_replace( $old, $new, $url, 1);
+	$result = preg_replace( $old, $new, $url, 1);
+	return $result;
 }
 
 /**
@@ -358,17 +359,37 @@ function themes_dir_add_rewrites() {
 	$theme_name = $theme_parts[1];
 	global $wp_rewrite;
 	$new_non_wp_rules = array(
-		'css/(.*)'     => 'wp-content/themes/'. $theme_name . '/css/$1',
-		'js/(.*)'      => 'wp-content/themes/'. $theme_name . '/js/$1',
-		'scripts/(.*)' => 'wp-content/themes/'. $theme_name . '/scripts/$1',
-		'images/(.*)'  => 'wp-content/themes/'. $theme_name . '/images/$1',
-		'fonts/(.*)'   => 'wp-content/themes/'. $theme_name . '/fonts/$1',
-		'style.css'    => 'wp-content/themes/'. $theme_name . '/style.css',
-		'favicon.ico'  => 'wp-content/themes/'. $theme_name . '/favicon.ico',
-		'jquery.js'    => 'wp-includes/js/jquery/jquery.js',
-		'site-admin/(.*)'    => 'wp-admin/$1',
+		'css/(.*)'              => 'wp-content/themes/'. $theme_name . '/css/$1',
+		'js/(.*)'               => 'wp-content/themes/'. $theme_name . '/js/$1',
+		'scripts/(.*)'          => 'wp-content/themes/'. $theme_name . '/scripts/$1',
+		'images/(.*)'           => 'wp-content/themes/'. $theme_name . '/images/$1',
+		'fonts/(.*)'            => 'wp-content/themes/'. $theme_name . '/fonts/$1',
+		'style.css'             => 'wp-content/themes/'. $theme_name . '/style.css',
+		'favicon.ico'           => 'wp-content/themes/'. $theme_name . '/favicon.ico',
+		'jquery.js'             => 'wp-includes/js/jquery/jquery.js',
+		'site-admin/index.php$' => 'site-admin/ [R=301,L]',
+		'site-admin/(.*)'       => 'wp-admin/$1',
 	);
 	$wp_rewrite->non_wp_rules += $new_non_wp_rules;
+}
+
+/**
+ * Modify rewrite rules
+ */
+add_filter('mod_rewrite_rules', 'mod_rewrite_rules');
+function mod_rewrite_rules($rules) {
+	global $wp_rewrite;
+	$rules = str_replace("[R=301,L] [QSA,L]", "[R=301,L]", $rules);
+	return $rules;
+}
+
+/**
+ * Flush rewrite rules
+ */
+add_action('admin_init', 'wptheme_flush_rewrites');
+function wptheme_flush_rewrites() {
+	global $wp_rewrite;
+	$wp_rewrite->flush_rules();
 }
 
 /**
