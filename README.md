@@ -44,7 +44,7 @@ Or, to specify the destination directory:
 
 ## Configuring
 
-- To set up prefixes and the theme name you can replace all instances of `wp-theme` and `WordPress Theme` with your own prefix and theme name.
+- To set up prefixes and the theme name you can replace all instances of `wp-theme`, `wp_theme` and `WordPress Theme` with your own prefix and theme name.
 
 - In `wp-content/themes/wp-theme/header.php` you will want to set the correct values of the meta tags for author, contact, and copyright, and set the variable at the top of the page to set the keywords which appear on every page. Currently the author name is set to John Doe and the contact e-mail address is set to johndoe@domain.com. You will want to update these to correct values based upon your needs, or delete them entirely if you have no need for such meta information to be included in your project.
 
