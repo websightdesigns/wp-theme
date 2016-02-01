@@ -133,11 +133,8 @@ add_action( 'widgets_init', 'wptheme_widgets_init' );
  */
 function wptheme_scripts() {
 	wp_enqueue_style( 'wp-theme-style', '/style.css' );
-	// wp_enqueue_style( 'wp-theme-style', get_stylesheet_uri() );
 
-	wp_enqueue_script( 'wp-theme-navigation', '/js/navigation.js', array(), '20120206', true );
-
-	wp_enqueue_script( 'wp-theme-skip-link-focus-fix', '/js/skip-link-focus-fix.js', array(), '20130115', true );
+	wp_enqueue_script( 'wp-theme-script', '/js/script.js', array(), '1.0', true );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
@@ -339,6 +336,12 @@ function wptheme_disable_embeds_init() {
  */
 
 /**
+ * Custom URL for the WordPress admin
+ */
+define('WP_ADMIN_DIR', 'site-admin');
+define( 'ADMIN_COOKIE_PATH', SITECOOKIEPATH . WP_ADMIN_DIR);
+
+/**
  * Change the wp-admin URL
  */
 add_filter('site_url', 'wpadmin_filter', 10, 3);
@@ -397,6 +400,20 @@ function wptheme_flush_rewrites() {
  * #               OUTPUT               #
  * ######################################
  */
+
+/**
+* Filter the separator for the document title.
+*
+* @since 4.4.0
+*
+* @param string $sep Document title separator. Default '-'.
+*/
+add_filter('document_title_separator', 'wptheme_document_title_separator', 10);
+function wptheme_document_title_separator($sep){
+    // change separator
+    $sep = '|';
+    return $sep;
+}
 
 /*
  * Change the search URL to pretty format
