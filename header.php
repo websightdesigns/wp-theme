@@ -18,25 +18,47 @@
 </head>
 
 <body <?php body_class(); ?>>
-	<div id="page" class="site">
-		<a class="skip-link screen-reader-text" href="#content"><?php esc_html_e( 'Skip to content', 'wp-theme' ); ?></a>
 
-		<header id="masthead" class="site-header">
-			<div class="site-branding">
-				<?php if ( is_front_page() && is_home() ) : ?><h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
-				<?php else : ?><p class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></p>
-				<?php endif;
-
-				$description = get_bloginfo( 'description', 'display' );
-				if ( $description || is_customize_preview() ) : ?><p class="site-description"><?php echo $description; /* WPCS: xss ok. */ ?></p><?php endif;
+	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="<?php bloginfo('wpurl'); ?>/">WP Theme</a>
+				<!--<a class="navbar-brand" href="<?php bloginfo('wpurl'); ?>/"><img src="<?php echo get_template_directory_uri(); ?>/img/wordpress-logo-light.png" alt=""></a>-->
+			</div>
+			<div class="collapse navbar-collapse">
+				<?php
+					wp_nav_menu( array(
+						'menu'              => 'primary',
+						'theme_location'    => 'primary',
+						'depth'             => 2,
+						'container'         => false,
+						'menu_class'        => 'nav navbar-nav',
+						'fallback_cb'       => 'wp_bootstrap_navwalker::fallback',
+						'walker'            => new wp_bootstrap_navwalker())
+					);
 				?>
+				<form class="navbar-form navbar-right" role="search" method="get" id="searchform" action="<?php echo home_url( '/' ); ?>">
+					<div class="form-group">
+						<div class="input-group input-group-sm">
+							<input type="text" name="s" id="s" class="form-control" placeholder="Search" value="<?php echo ( isset($_GET['s']) ? $_GET['s'] : null ); ?>">
+							<span class="input-group-btn">
+								<button class="btn btn-default" type="submit">
+									<span class="glyphicon glyphicon-search"></span>
+								</button>
+							</span>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 
-			</div><!-- .site-branding -->
-
-			<nav id="site-navigation" class="main-navigation">
-				<button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false"><?php esc_html_e( 'Primary Menu', 'wp-theme' ); ?></button>
-				<?php wp_nav_menu( array( 'theme_location' => 'primary', 'menu_id' => 'primary-menu' ) ); ?>
-			</nav><!-- #site-navigation -->
-		</header><!-- #masthead -->
+	<div id="page" class="site">
 
 		<div id="content" class="site-content">

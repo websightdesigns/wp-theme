@@ -395,6 +395,53 @@ function wptheme_flush_rewrites() {
 	$wp_rewrite->flush_rules();
 }
 
+/* ******************************************************************** */
+/*                      BOOTSTRAP CUSTOMIZATIONS                        */
+/* ******************************************************************** */
+
+/**
+ * Add the bootstrap menu navwalker
+ */
+require_once('wp_bootstrap_navwalker.php');
+
+/**
+ * Add 'active' class to active menu list item
+ */
+add_filter('nav_menu_css_class' , 'special_nav_class' , 10 , 2);
+if ( ! function_exists( 'special_nav_class' ) ) :
+	function special_nav_class($classes, $item){
+		if( in_array('current-menu-item', $classes) ){
+			$classes[] = 'active ';
+		}
+		return $classes;
+	}
+endif;
+
+/**
+ * Remove the automatic '<p>' tags around '<button>' tags
+ */
+add_filter('the_content', 'filter_ptags_on_buttons');
+if ( ! function_exists( 'filter_ptags_on_buttons' ) ) :
+	function filter_ptags_on_buttons($content) {
+		$content = str_ireplace('</button></p>', '</button>', $content);
+		return str_ireplace('<p><button', '<button', $content);
+	}
+endif;
+
+/**
+ * Remove unwanted '<br>' tags from inside of '<form>' tags
+ */
+add_filter('the_content', 'remove_bad_br_tags');
+if ( ! function_exists( 'remove_bad_br_tags' ) ) :
+	function remove_bad_br_tags($content) {
+		$content = str_ireplace("</label>\n<br />", "</label>", $content);
+		$content = str_ireplace("</label><br />", "</label>", $content);
+		$content = str_ireplace("</button>\n<br />", "</button>", $content);
+		$content = str_ireplace("</button><br />", "</button>", $content);
+		return $content;
+	}
+endif;
+
 /**
  * ######################################
  * #               OUTPUT               #
