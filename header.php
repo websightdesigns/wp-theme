@@ -28,8 +28,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="<?php bloginfo('wpurl'); ?>/">WP Theme</a>
-				<!--<a class="navbar-brand" href="<?php bloginfo('wpurl'); ?>/"><img src="<?php echo get_template_directory_uri(); ?>/img/wordpress-logo-light.png" alt=""></a>-->
+				<a class="navbar-brand" href="<?php bloginfo('wpurl'); ?>/"><img src="<?php echo get_template_directory_uri(); ?>/images/icons/wordpress-logo-light.png" alt=""></a>
 			</div>
 			<div class="collapse navbar-collapse">
 				<?php
