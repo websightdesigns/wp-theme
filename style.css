@@ -284,11 +284,11 @@ h1, h2, h3, h4, h5, h6 {
 h1, h2, h3, h4, h5, h6,
 h1 a, h2 a, h3 a, h4 a, h5 a, h6 a,
 h1 a:visited, h2 a:visited, h3 a:visited, h4 a:visited, h5 a:visited, h6 a:visited {
-  color: #216243;
+  color: #324A5F;
 }
 
 h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover {
-  color: #28793f;
+  color: #4B667B;
 }
 
 p {
@@ -354,7 +354,7 @@ html {
 }
 
 body {
-  background: #fff;
+  background: #E2EBF4;
   /* Fallback for when there is no custom background color defined. */
 }
 
@@ -527,17 +527,17 @@ textarea {
 ## Links
 --------------------------------------------------------------*/
 a {
-  color: royalblue;
+  color: #337ab7;
 }
 
 a:visited {
-  color: royalblue;
+  color: #337ab7;
 }
 
 a:hover,
 a:focus,
 a:active {
-  color: midnightblue;
+  color: #23527c;
 }
 
 a:focus {
@@ -748,6 +748,10 @@ a:active {
 /*--------------------------------------------------------------
 ## Posts and pages
 --------------------------------------------------------------*/
+#page {
+  margin-top: 65px;
+}
+
 .sticky {
   display: block;
 }
@@ -2282,7 +2286,7 @@ body {
   font-size: 14px;
   line-height: 1.42857;
   color: #333333;
-  background-color: #fff;
+  background-color: #E2EBF4;
 }
 
 input,
@@ -2332,7 +2336,7 @@ img {
 .img-thumbnail {
   padding: 4px;
   line-height: 1.42857;
-  background-color: #fff;
+  background-color: #E2EBF4;
   border: 1px solid #ddd;
   border-radius: 4px;
   -webkit-transition: all 0.2s ease-in-out;
@@ -3646,7 +3650,7 @@ th {
 }
 
 .table .table {
-  background-color: #fff;
+  background-color: #E2EBF4;
 }
 
 .table-condensed > thead > tr > th,
@@ -5738,7 +5742,7 @@ tbody.collapse.in {
 .nav-tabs > li.active > a:hover,
 .nav-tabs > li.active > a:focus {
   color: #555555;
-  background-color: #fff;
+  background-color: #E2EBF4;
   border: 1px solid #ddd;
   border-bottom-color: transparent;
   cursor: default;
@@ -5823,7 +5827,7 @@ tbody.collapse.in {
   .nav-tabs-justified > .active > a,
   .nav-tabs.nav-justified > .active > a, .nav-tabs-justified > .active > a:hover,
   .nav-tabs.nav-justified > .active > a:hover, .nav-tabs-justified > .active > a:focus, .nav-tabs.nav-justified > .active > a:focus {
-    border-bottom-color: #fff;
+    border-bottom-color: #E2EBF4;
   }
 }
 
@@ -6853,7 +6857,7 @@ a.badge:focus {
   padding: 4px;
   margin-bottom: 20px;
   line-height: 1.42857;
-  background-color: #fff;
+  background-color: #E2EBF4;
   border: 1px solid #ddd;
   border-radius: 4px;
   -webkit-transition: border 0.2s ease-in-out;

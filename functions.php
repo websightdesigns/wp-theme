@@ -132,8 +132,13 @@ add_action( 'widgets_init', 'wptheme_widgets_init' );
  * Enqueue scripts and styles.
  */
 function wptheme_scripts() {
+	// styles
 	wp_enqueue_style( 'wp-theme-style', '/style.css' );
 
+	// scripts
+	if( !is_admin()){
+		wp_deregister_script('jquery');
+	}
 	wp_enqueue_script( 'wp-theme-script', '/js/script.js', array(), '1.0', true );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
