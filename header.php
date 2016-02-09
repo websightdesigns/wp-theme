@@ -9,6 +9,13 @@
  * @package WordPress_Theme
  */
 
+// add body tag classes for specific pages
+if( '/' == $_SERVER['REQUEST_URI'] ) {
+	$class = 'homepage';
+} else {
+	$class = str_replace( '/', '', strtolower( $_SERVER['REQUEST_URI'] ) );
+}
+
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
@@ -17,7 +24,7 @@
 <?php wp_head(); ?>
 </head>
 
-<body <?php body_class(); ?>>
+<body <?php if($class) echo 'class="' . $class . '"'; //body_class(); ?>>
 
 	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		<div class="container">
@@ -28,7 +35,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="<?php bloginfo('wpurl'); ?>/"><img src="<?php echo get_template_directory_uri(); ?>/images/icons/wordpress-logo-light.png" alt=""></a>
+				<a class="navbar-brand" href="<?php bloginfo('wpurl'); ?>/"><img src="/images/icons/logo.png" alt=""></a>
 			</div>
 			<div class="collapse navbar-collapse">
 				<?php

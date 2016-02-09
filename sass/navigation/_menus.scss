@@ -103,3 +103,20 @@
 		width: 50%;
 	}
 }
+
+// bootstrap overrides
+
+.navbar {
+	& > .container,
+	& > .container-fluid {
+		.navbar-brand {
+			margin-left: 0;
+			padding: 6px;
+		}
+	}
+}
+
+.navbar-form {
+	margin-top: 11px;
+	margin-bottom: 9px;
+}

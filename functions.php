@@ -178,228 +178,6 @@ require get_template_directory() . '/inc/customizer.php';
  */
 require get_template_directory() . '/inc/jetpack.php';
 
-/**
- * ######################################
- * #              SECURITY              #
- * ######################################
- */
-
-/**
- * Disable XMLRPC
- */
-add_filter( 'xmlrpc_enabled', '__return_false' );
-
-/**
- * Disable the XMLRPC HTTP Header
- */
-add_filter( 'wp_headers', 'wptheme_disable_xmlrpc' );
-function wptheme_disable_xmlrpc( $headers ) {
-	unset( $headers['X-Pingback'] );
-	return $headers;
-}
-
-/**
- * Disable the JSON REST API
- */
-add_filter('json_enabled', '__return_false');
-add_filter('json_jsonp_enabled', '__return_false');
-
-/**
- * Remove pingback link from document head
- */
-remove_action( 'wp_head', 'rsd_link' );
-
-/**
- * Remove manifest link
- */
-remove_action( 'wp_head', 'wlwmanifest_link' );
-
-/**
- * Remove the relational link for the first post
- */
-remove_action('wp_head', 'start_post_rel_link', 10, 0 );
-
-/**
- * Remove the relational link for the parent post
- */
-remove_action( 'wp_head', 'parent_post_rel_link', 10, 0  );
-
-/**
- * Remove previous and next links
- */
-remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head');
-
-/**
- * Remove meta name generator
- */
-remove_action( 'wp_head', 'wp_generator' );
-
-/**
- * Remove shortlink
- */
-remove_action( 'wp_head', 'wp_shortlink_wp_head' );
-
-/**
- * Remove rest api output to wp_head()
- */
-remove_action( 'wp_head', 'rest_output_link_wp_head', 10 );
-remove_action( 'wp_head', 'wp_oembed_add_discovery_links', 10 );
-
-/**
- * Remove feed link
- */
-remove_action( 'wp_head', 'feed_links', 2 );
-
-/**
- * Remove comments feed link
- */
-remove_action( 'wp_head', 'feed_links_extra', 3 );
-
-/**
- * Remove the relational link to the site index
- */
-remove_action('wp_head', 'index_rel_link');
-
-/**
- * Remove the version query string from js and css
- */
-add_filter( 'script_loader_src', '_remove_script_version', 15, 1 );
-add_filter( 'style_loader_src', '_remove_script_version', 15, 1 );
-function _remove_script_version( $src ){
-	$parts = explode( '?ver', $src );
-	return $parts[0];
-}
-
-/**
- * Load the copy of jQuery that comes with WordPress at the bottom of the <body> tag
- */
-add_action('init', 'wptheme_jquery_init');
-function wptheme_jquery_init() {
-    if ( !is_admin() ) {
-        wp_deregister_script('jquery');
-
-        // The last parameter set to TRUE states that it should be loaded
-        // in the footer.
-        wp_register_script('jquery', '/jquery.js', false, '1.11.0', true);
-
-        wp_enqueue_script('jquery');
-    }
-}
-
-/**
- * Disable emojis
- */
-remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
-remove_action( 'wp_print_styles', 'print_emoji_styles' );
-
-/**
- * Disable comments on pages, but not posts
- */
-add_filter( 'comments_template', 'wptheme_disable_comments_on_pages', 11 );
-function wptheme_disable_comments_on_pages( $file ) {
-	return is_page() ? __FILE__ : $file;
-}
-
-/**
- * Hide the admin bar
- */
-add_filter('show_admin_bar', '__return_false');
-
-/**
- * remove _admin_bar_bump_cb() from wp_head()
- * removes the margin-top added to the html element
- */
-add_action('get_header', 'wptheme_filter_head');
-function wptheme_filter_head() {
-	remove_action('wp_head', '_admin_bar_bump_cb');
-}
-
-/**
- * Disable REST API oEmbed auto discovery
- */
-add_action('init', 'wptheme_disable_embeds_init', 9999);
-function wptheme_disable_embeds_init() {
-
-    // Remove the REST API endpoint.
-    remove_action('rest_api_init', 'wp_oembed_register_route');
-
-    // Turn off oEmbed auto discovery.
-    // Don't filter oEmbed results.
-    remove_filter('oembed_dataparse', 'wp_filter_oembed_result', 10);
-
-    // Remove oEmbed discovery links.
-    remove_action('wp_head', 'wp_oembed_add_discovery_links');
-
-    // Remove oEmbed-specific JavaScript from the front-end and back-end.
-    remove_action('wp_head', 'wp_oembed_add_host_js');
-}
-
-/**
- * ######################################
- * #             PERMALINKS             #
- * ######################################
- */
-
-/**
- * Custom URL for the WordPress admin
- */
-define('WP_ADMIN_DIR', 'site-admin');
-define( 'ADMIN_COOKIE_PATH', SITECOOKIEPATH . WP_ADMIN_DIR);
-
-/**
- * Change the wp-admin URL
- */
-add_filter('site_url', 'wpadmin_filter', 10, 3);
-function wpadmin_filter( $url, $path, $orig_scheme ) {
-	$old  = array( "/(wp-admin)/");
-	$admin_dir = WP_ADMIN_DIR;
-	$new  = array($admin_dir);
-	$result = preg_replace( $old, $new, $url, 1);
-	return $result;
-}
-
-/**
- * Rewrite theme directory paths in .htaccess
- */
-add_action('generate_rewrite_rules', 'themes_dir_add_rewrites');
-function themes_dir_add_rewrites() {
-	$theme_parts = explode( '/themes/', get_stylesheet_directory() );
-	$theme_name = $theme_parts[1];
-	global $wp_rewrite;
-	$new_non_wp_rules = array(
-		'css/(.*)'              => 'wp-content/themes/'. $theme_name . '/css/$1',
-		'js/(.*)'               => 'wp-content/themes/'. $theme_name . '/js/$1',
-		'scripts/(.*)'          => 'wp-content/themes/'. $theme_name . '/scripts/$1',
-		'images/(.*)'           => 'wp-content/themes/'. $theme_name . '/images/$1',
-		'fonts/(.*)'            => 'wp-content/themes/'. $theme_name . '/fonts/$1',
-		'style.css'             => 'wp-content/themes/'. $theme_name . '/style.css',
-		'favicon.ico'           => 'wp-content/themes/'. $theme_name . '/favicon.ico',
-		'jquery.js'             => 'wp-includes/js/jquery/jquery.js',
-		'site-admin/index.php$' => 'site-admin/ [R=301,L]',
-		'site-admin/(.*)'       => 'wp-admin/$1',
-	);
-	$wp_rewrite->non_wp_rules += $new_non_wp_rules;
-}
-
-/**
- * Modify rewrite rules
- */
-add_filter('mod_rewrite_rules', 'mod_rewrite_rules');
-function mod_rewrite_rules($rules) {
-	global $wp_rewrite;
-	$rules = str_replace("[R=301,L] [QSA,L]", "[R=301,L]", $rules);
-	return $rules;
-}
-
-/**
- * Flush rewrite rules
- */
-add_action('admin_init', 'wptheme_flush_rewrites');
-function wptheme_flush_rewrites() {
-	global $wp_rewrite;
-	$wp_rewrite->flush_rules();
-}
-
 /* ******************************************************************** */
 /*                      BOOTSTRAP CUSTOMIZATIONS                        */
 /* ******************************************************************** */
@@ -599,3 +377,17 @@ if($minify) {
 	}
 	add_action( 'get_header', 'wp_html_compression_start' );
 }
+
+// remove divi builder styles
+function wp_theme_remove_divi_builder_styles() {
+	$styles = array(
+		'et-builder-modules-style',
+		'magnific-popup',
+	);
+	// wp_dequeue_script( $styles );
+
+	wp_dequeue_style( 'et-builder-modules-style' );
+	wp_dequeue_style( 'magnific-popup' );
+
+}
+add_action( 'wp_enqueue_scripts', 'wp_theme_remove_divi_builder_styles', 100 );
