@@ -42,6 +42,7 @@ Nicolas Gallagher and Jonathan Neal http://necolas.github.com/normalize.css/
 # Media
 	## Captions
 	## Galleries
+# Sticky Footer
 --------------------------------------------------------------*/
 /*--------------------------------------------------------------
 # Normalize
@@ -8911,4 +8912,41 @@ object {
 
 .gallery-caption {
   display: block;
+}
+
+/*--------------------------------------------------------------
+# Sticky Footer
+--------------------------------------------------------------*/
+/*--------------------------------------------------------------
+## Footer styles
+--------------------------------------------------------------*/
+#footer {
+  background-color: #222;
+}
+
+#footer .site-info {
+  padding-top: 1.5em;
+  padding-bottom: 1.5em;
+}
+
+/*--------------------------------------------------------------
+## Sticky footer - keep this at the end
+--------------------------------------------------------------*/
+html {
+  position: relative;
+  min-height: 100%;
+  margin-top: 0 !important;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+
+#footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
 }
